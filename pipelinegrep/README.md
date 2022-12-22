@@ -46,8 +46,8 @@ python3 pipelinegrep.py -f csv '<git url.*/myrepo(|\.git)"' < config.xml
 ```
 gives the same information in the output, but formatted like the following:
 ```
-"mypipeline_reporting",6910,"<git url=\"https://github.agency.gov/dataeng/myrepo\" />"
-"mypipeline_reporting_snapshots",7071,"<git url=\"https://github.agency.gov/dataeng/myrepo.git\" />"
+"mypipeline_reporting",6910,"<git url=""https://github.agency.gov/dataeng/myrepo"" />"
+"mypipeline_reporting_snapshots",7071,"<git url=""https://github.agency.gov/dataeng/myrepo.git"" />"
 ```
 
 `-f tab` or `-f TAB` gives the same, but tab-delimited:
@@ -63,8 +63,9 @@ use `-f json` to produce:
 { "pipeline": "mypipeline_reporting_snapshots, "n":7071, "line":"<git url=\"https://github.agency.gov/dataeng/myrepo.git\" />" }
 ```
 
-Note that quotes in the matching line are backslash-escaped in the CSV
-and JSON output, but not in the tab-delimited output.
+Note that quotes in the matching line are backslash-escaped in the
+JSON output, doubled to escape them in the CSV output, but unchanged
+in the tab-delimited output.
 
 Any whitespace at the beginning of the matching line is also
 stripped.  Whitespace at the end of the line is always stripped.
@@ -72,9 +73,10 @@ stripped.  Whitespace at the end of the line is always stripped.
 # Custom Formats
 
 If the built-in formats aren't what you need, you can build your own
-format string, using `{pipeline}`, `{n}`, `{line}`, `{sline}`, and
-`{eline}` for the pipeline name, line number, matching line, stripped
-matching line, and stripped-and-quote-escaped matching line.
+format string, using `{pipeline}`, `{n}`, `{line}`, `{sline}`, `{eline}`,
+and `{cline}` for the pipeline name, line number, matching line,
+stripped matching line, and stripped-and-quotes-escaped matching
+line (for JSON), and stripped-and-quotes-doubled matching line (for CSV).
 ```
 python3 pipelinegrep.py '<git url.*/myrepo(|\.git)"' -f 'At line {n}, inside pipeline {pipeline}, we found this line: {sline}' < config.xml
 ```

@@ -46,12 +46,15 @@ def scan_for(s, lines):
 def escape_quotes(line):
     return line.replace('"', '\\"')
 
+def double_quotes(line):
+    return line.replace('"', '""')
+
 
 output_format = None
 
 output_formats = {
     'json': '{{ "pipeline":"{pipeline}", "n":{n}, "line":"{eline}" }}',
-    'csv': '"{pipeline}",{n},"{eline}"',
+    'csv': '"{pipeline}",{n},"{cline}"',
     'tab': '{pipeline}\t{n}\t{sline}',
 }
 
@@ -142,9 +145,12 @@ def main(args):
 
         if line_matches(check_line, patterns):
             pipeline_name = get_pipeline_from_this_line(pipeline_line_numbers, lines)
+            sline=line.strip()
+            eline=escape_quotes(sline)
+            cline=double_quotes(sline)
             # internally, we're 0-based; externally, 1-based:
             print(output_format.format(pipeline=pipeline_name, n=i+1, line=line,
-                                       sline=line.strip(), eline=escape_quotes(line.strip())))
+                                       sline=sline, eline=eline, cline=cline))
             
         i += 1
 
