@@ -1,0 +1,29 @@
+# Backups and auto-saves
+*~
+\#*
+*.bak
+.#*
+# vim:
+*.sw?
+
+# Explicitly ignore OS X Finder thumbnail files.
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+.env
+*.egg-info/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+.python-version
+
+# C extensions
+*.so
+
+# other
+ignore
